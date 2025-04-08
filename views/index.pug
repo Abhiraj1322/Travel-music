@@ -1,0 +1,158 @@
+doctype html
+html
+  head
+    title Map with Dynamic Location
+    link(rel='stylesheet', href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css')
+    script(src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js')
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet")
+    style.
+      .playlist {
+        margin: 20px 0;
+        padding: 10px;
+ 
+        border-radius: 10px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        padding: 20px;
+        background-color: #1D1616;
+        transition: background-color 0.3s ease; 
+      }
+      .playlist:hover{
+      background-color: #750E21;
+      }
+      body{
+        background:#1D1616;
+      }
+      .playlist img {
+        width: 150px;
+        border-radius: 10px;
+      }
+      .playlist-info {
+        max-width: 600px;
+      }
+      .playlist-info h3 {
+        margin: 0;
+        color:#DCD7C9
+      }
+      .playlist-info p {
+        margin: 4px 0;
+      }
+      h1,h2,p {
+         font-family: 'Roboto', sans-serif;
+         color:#DCD7C9
+      }
+      .heading{
+        display: flex;
+       flex-direction: row;
+       justify-content: space-around;
+
+      }
+      .location{
+        color:#DCD7C9;
+        display: flex;
+        flex-direction: column;
+        margin-left: 450px;
+        margin-top: 50px;
+      }
+      .location h2 {
+        color:#D21312
+      }
+
+      button {
+       background:#8E1616;
+       color:#DCD7C9;
+       padding:10px;
+       border-radius:20%;
+       margin-left:10px;
+       width:100px
+      }
+      label{
+        color:#DCD7C9;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block; /* Makes the label display on its own line */
+        text-align: left;
+      } 
+      .search{
+        display: flex;
+        align-content: space-around;
+        justify-content: space-around;
+  
+
+      }
+      #map{
+            margin: auto;
+            margin-top: 50px;
+      }
+      input{
+         padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+      }
+      input:focus{
+        border-color: #007bff; /* Change border color when focused */
+        background-color: #e6f7ff; /* Change background color on focus */
+        outline: none;
+      }
+      .spotify-heading{
+            margin-left: 24px;
+            margin-top: 56px;
+      }
+  body
+   div.heading 
+    h1 Travel and music
+   div 
+  div.search
+    form(action='/', method='get')
+      label(for='location') Enter location:
+      input(type='text', id='location', name='location', required)
+      button(type='submit') Search
+  div
+
+  div.location
+    if location
+      h2 Location: #{location}
+      p Latitude  #{latitude}, Longitude: #{longitude}
+
+    if error
+      p.error= error
+  div 
+
+    #map(style='width: 600px; height: 300px; margin-bottom: 40px; ')
+
+    // Playlist section
+    if playlists && playlists.length
+      h2.spotify-heading Spotify Playlists for #{location}
+      each playlist in playlists
+        if playlist
+          .playlist
+            if playlist.images.length
+              img(src=playlist.images[0].url, alt=playlist.name)
+            .playlist-info
+              h3 #{playlist.name}
+              p Owner: #{playlist.owner.display_name}
+              p Tracks: #{playlist.tracks.total}
+              if playlist.description
+                p Description: #{playlist.description}
+              else
+                p Description: No description available.
+              a(href=playlist.external_urls.spotify, target="_blank") ▶️ Open on Spotify
+    else
+      p No playlists found.
+
+    // Mapbox JS
+    script.
+      mapboxgl.accessToken = 'pk.eyJ1IjoiYWJoaXJhamQ0IiwiYSI6ImNtOTIwZDRvMDAwcW0ya3B5c3N1enZmM2YifQ.g6IX5Vj8CwVBPEZyz7hENw';
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [#{longitude}, #{latitude}],
+        zoom: #{zoom}
+      });

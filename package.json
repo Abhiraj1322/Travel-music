@@ -1,0 +1,23 @@
+{
+  "name": "travel-music",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.1",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "ex": "^0.1.4",
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.9",
+    "pug": "^3.0.3",
+    "request": "^2.88.2"
+  }
+}
